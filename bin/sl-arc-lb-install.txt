@@ -1,42 +1,4 @@
-# StrongLoop Arc load-balancer
-
-Provides load-balancing support for multiple strong-pm instances configured and
-run using StrongLoop Arc.
-
-Please see the [official documentation](http://docs.strongloop.com/display/ARC).
-
-## Install
-
-### Prerequisite:
-
-* You must have [Node.js](http://nodejs.org) installed.
-* You must have [Nginx](http://nginx.org/) installed.
-
-### Install using `npm` as follows:
-
-```sh
-$ npm install -g strong-arc-lb
-```
-
-## Usage
-
-```
-usage: sl-arc-lb [options]
-
-Options:
-  -h,--help             Print this message and exit.
-  -v,--version          Print version and exit.
-  -b,--base BASE        Base directory to work in (default is .strong-arc-lb).
-  -c,--control CONTROL  Control API endpoint (Default http://0.0.0.0:0)
-  -l,--listen ENDPOINT  Listen ENDPOINT for incoming HTTP traffic
-                          (Default: http://0.0.0.0:8080)
-  -x,--nginx            Path to Nginx binary (Default: /usr/sbin/nginx)
-```
-
-## Install
-
-```
-usage: sl-arc-lb-install [options]
+usage: %MAIN% [options]
 
 Options:
   -h,--help             Print this message and exit.
@@ -59,4 +21,3 @@ OS Service support:
   The --systemd and --upstart VERSION options are mutually exclusive.
   If neither is specified, the service is installed as an Upstart job
   using a template that assumes Upstart 1.4 or higher.
-```

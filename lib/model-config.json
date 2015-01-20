@@ -1,12 +1,12 @@
 {
   "_meta": {
     "sources": [
-      "../common/models",
       "./models"
     ]
   },
   "User": {
-    "dataSource": "db"
+    "dataSource": "db",
+    "public": false
   },
   "AccessToken": {
     "dataSource": "db",
@@ -23,5 +23,13 @@
   "Role": {
     "dataSource": "db",
     "public": false
+  },
+  "Endpoint": {
+    "dataSource": "db",
+    "public": false
+  },
+  "Config": {
+    "dataSource": null,
+    "public": true
   }
 }
