@@ -1,0 +1,27 @@
+{
+  "name": "Endpoint",
+  "base": "PersistedModel",
+  "properties": {
+    "id": {
+      "type": "string",
+      "id": true,
+      "index": true
+    },
+    "host": {
+      "type": "string",
+      "required": true,
+      "index": true
+    },
+    "port": {
+      "type": "number",
+      "required": true
+    }
+  },
+  "hidden": [
+    "id"
+  ],
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

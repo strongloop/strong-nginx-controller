@@ -1,0 +1,9 @@
+{
+  "name": "Config",
+  "plural": "Config",
+  "properties": {},
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": []
+}

@@ -1,0 +1,37 @@
+{
+  "name": "strong-arc-lb",
+  "version": "1.0.0",
+  "main": "lib/server.js",
+  "scripts": {
+    "pretest": "jshint . && eslint --ignore-path .jshintignore **/*.js",
+    "test": "tap --timeout 300 test/test-*.js"
+  },
+  "bin": {
+    "sl-arc-lb": "./bin/sl-arc-lb.js",
+    "sl-arc-lb-install": "./bin/sl-arc-lb-install.js"
+  },
+  "dependencies": {
+    "async": "^0.9.0",
+    "compression": "^1.0.3",
+    "debug": "^2.1.1",
+    "errorhandler": "^1.1.1",
+    "loopback": "^2.0.0",
+    "loopback-boot": "^2.0.0",
+    "loopback-datasource-juggler": "^2.7.0",
+    "mkdirp": "^0.5.0",
+    "passwd-user": "^1.0.1",
+    "posix-getopt": "^1.1.0",
+    "serve-favicon": "^2.0.1",
+    "strong-service-install": "^1.1.0",
+    "tap": "^0.5.0",
+    "uid-number": "0.0.6",
+    "uuid": "^2.0.1"
+  },
+  "optionalDependencies": {
+    "loopback-explorer": "^1.1.0"
+  },
+  "devDependencies": {
+    "eslint": "^0.12.0",
+    "jshint": "^2.5.11"
+  }
+}

@@ -1,0 +1,10 @@
+usage: %MAIN% [options]
+
+Options:
+  -h,--help             Print this message and exit.
+  -v,--version          Print version and exit.
+  -b,--base BASE        Base directory to work in (default is .strong-arc-lb).
+  -c,--control CONTROL  Control API endpoint (Default http://0.0.0.0:0)
+  -l,--listen ENDPOINT  Listen ENDPOINT for incoming HTTP traffic
+                          (Default: http://0.0.0.0:8080)
+  -x,--nginx            Path to Nginx binary (Default: /usr/sbin/nginx)
