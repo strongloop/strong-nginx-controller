@@ -1,5 +1,5 @@
 {
-  "name": "strong-arc-lb",
+  "name": "strong-nginx-controller",
   "version": "1.0.0",
   "main": "lib/server.js",
   "scripts": {
@@ -7,8 +7,8 @@
     "test": "tap --timeout 300 test/test-*.js"
   },
   "bin": {
-    "sl-arc-lb": "./bin/sl-arc-lb.js",
-    "sl-arc-lb-install": "./bin/sl-arc-lb-install.js"
+    "sl-nginx-ctl": "./bin/sl-nginx-ctl.js",
+    "sl-nginx-ctl-install": "./bin/sl-nginx-ctl-install.js"
   },
   "dependencies": {
     "async": "^0.9.0",
