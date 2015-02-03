@@ -56,7 +56,7 @@ function testAddEndpoints(t, app, cb) {
             './scratch/nginx/nginx.conf'), 'utf8');
 
         t.ok(!!fdata.match(/listen 0.0.0.0:0;/));
-        t.ok(!!fdata.match(/upstream lb_hosts/));
+        t.ok(!!fdata.match(/upstream srvc_hosts/));
         t.ok(!!fdata.match(/server 127.0.0.1:5001;/));
         t.ok(!!fdata.match(/server 127.0.0.1:5000;/));
 

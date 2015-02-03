@@ -2,7 +2,7 @@
 /* eslint no-console:0 no-process-exit:0 */
 
 var Parser = require('posix-getopt').BasicParser;
-var debug = require('debug')('strong-arc-lb');
+var debug = require('debug')('strong-nginx-controller');
 var mkdirp = require('mkdirp').sync;
 var path = require('path');
 var fs = require('fs');
@@ -11,7 +11,7 @@ var url = require('url');
 var setup = require('../lib/server');
 
 function printHelp(cmdName, prn) {
-  var USAGE = fs.readFileSync(require.resolve('./sl-arc-lb.txt'), 'utf-8')
+  var USAGE = fs.readFileSync(require.resolve('./sl-nginx-ctl.txt'), 'utf-8')
       .replace(/%MAIN%/g, cmdName)
       .trim();
 
@@ -30,9 +30,9 @@ var parser = new Parser([
   ].join(''),
   argv);
 
-var base = '.strong-arc-lb';
-var lbControl = 'http://0.0.0.0:0';
-var lbListenPort = 'http://0.0.0.0:8080';
+var base = '.strong-nginx-controller';
+var controlUri = 'http://0.0.0.0:0';
+var listenUri = 'http://0.0.0.0:8080';
 var nginxPath = '/usr/sbin/nginx';
 var nginxRoot = path.resolve(__dirname, '../lib/html/');
 var option;
@@ -51,10 +51,10 @@ while ((option = parser.getopt()) !== undefined) {
       base = option.optarg;
       break;
     case 'c':
-      lbControl = option.optarg;
+      controlUri = option.optarg;
       break;
     case 'l':
-      lbListenPort = option.optarg;
+      listenUri = option.optarg;
       break;
     case 'x':
       nginxPath = option.optarg;
@@ -73,19 +73,19 @@ if (parser.optind() !== argv.length) {
   process.exit();
 }
 
-if (lbControl === null) {
+if (controlUri === null) {
   console.error('Command API endpoint was not specified, try `%s --help`.', $0);
   process.exit();
 }
 
-var controlEndpoint = url.parse(lbControl);
+var controlEndpoint = url.parse(controlUri);
 debug('normalize endpoint %j', controlEndpoint);
 
 // Allow `http://:8888`
 controlEndpoint.hostname = controlEndpoint.hostname || '0.0.0.0';
 delete controlEndpoint.host;
 
-var listenEndpoint = url.parse(lbListenPort);
+var listenEndpoint = url.parse(listenUri);
 debug('normalize endpoint %j', listenEndpoint);
 
 // Allow `http://:8888`

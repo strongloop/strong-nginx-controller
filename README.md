@@ -1,7 +1,7 @@
-# StrongLoop Arc load-balancer
+# StrongLoop Nginx Controller
 
-Provides load-balancing support for multiple strong-pm instances configured and
-run using StrongLoop Arc.
+Provides reverse-proxy and load-balancning support for multiple strong-pm
+instances configured and run using StrongLoop Arc.
 
 Please see the [official documentation](http://docs.strongloop.com/display/ARC).
 
@@ -15,18 +15,18 @@ Please see the [official documentation](http://docs.strongloop.com/display/ARC).
 ### Install using `npm` as follows:
 
 ```sh
-$ npm install -g strong-arc-lb
+$ npm install -g strong-nginx-controller
 ```
 
 ## Usage
 
 ```
-usage: sl-arc-lb [options]
+usage: sl-nginx-ctl [options]
 
 Options:
   -h,--help             Print this message and exit.
   -v,--version          Print version and exit.
-  -b,--base BASE        Base directory to work in (default is .strong-arc-lb).
+  -b,--base BASE        Base directory to work in (default is .strong-nginx-controller).
   -c,--control CONTROL  Control API endpoint (Default http://0.0.0.0:0)
   -l,--listen ENDPOINT  Listen ENDPOINT for incoming HTTP traffic
                           (Default: http://0.0.0.0:8080)
@@ -36,19 +36,19 @@ Options:
 ## Install
 
 ```
-usage: sl-arc-lb-install [options]
+usage: sl-nginx-ctl-install [options]
 
 Options:
   -h,--help             Print this message and exit.
   -v,--version          Print version and exit.
-  -b,--base BASE        Base directory to work in (default is .strong-arc-lb).
-  -u,--user USER        User to run manager as (default is strong-arc-lb).
+  -b,--base BASE        Base directory to work in (default is .strong-nginx-controller).
+  -u,--user USER        User to run manager as (default is strong-nginx-controller).
   -c,--control CONTROL  Control API endpoint (Default http://0.0.0.0:0)
   -l,--listen ENDPOINT  Listen ENDPOINT for incoming HTTP traffic
                         (Default: http://0.0.0.0:8080)
   -n,--dry-run          Don't write any files.
   -j,--job-file FILE    Path of Upstart job to create (default is
-                        /etc/init/strong-arc-lb.conf)
+                        /etc/init/strong-nginx-controller.conf)
   -f,--force            Overwrite existing job file if present
   -x,--nginx            Path to Nginx binary (Default: /usr/sbin/nginx)
   --upstart VERSION     Specify the version of Upstart, 1.4 or 0.6
