@@ -1,5 +1,6 @@
 {
   "name": "strong-nginx-controller",
+  "description": "Nginx controller for StrongLoop Arc",
   "version": "1.0.0",
   "main": "lib/server.js",
   "scripts": {
@@ -33,5 +34,16 @@
   "devDependencies": {
     "eslint": "^0.12.0",
     "jshint": "^2.5.11"
-  }
+  },
+  "license": {
+    "name": "StrongLoop",
+    "url": "https://github.com/strongloop/strong-nginx-controller/blob/master/LICENSE"
+  },
+  "author": "engineering@strongloop.com",
+  "homepage": "https://github.com/strongloop/strong-nginx-controller",
+  "keywords": [
+    "nginx",
+    "reverse-proxy",
+    "StrongLoop"
+  ]
 }
