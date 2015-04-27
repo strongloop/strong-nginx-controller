@@ -14,7 +14,18 @@ function testAppStart(t, app, cb) {
     t.equal(app.get('host'), '0.0.0.0');
     t.equal(app.get('port'), '0');
     app.set('url', 'http://0.0.0.0:0/');
-    if (lCb) return lCb();
+    // The listen callback (lCb below) is usually called on an httpServer
+    // object, but we don't have one in this stubbed out version of listen(), so
+    // fake the .address() method that's the ctl daemon will call.
+    var server = {
+      address: function() {
+        return {
+          port: 8888,
+        };
+      },
+    };
+
+    if (lCb) return lCb.call(server);
   };
   app.start(function(err) {
     t.ifError(err);

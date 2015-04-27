@@ -2,7 +2,7 @@
 /* eslint no-console:0 no-process-exit:0 */
 
 var Parser = require('posix-getopt').BasicParser;
-var debug = require('debug')('strong-nginx-controller');
+var debug = require('debug')('strong-nginx-controller:ctl');
 var mkdirp = require('mkdirp').sync;
 var path = require('path');
 var fs = require('fs');
@@ -79,14 +79,14 @@ if (controlUri === null) {
 }
 
 var controlEndpoint = url.parse(controlUri);
-debug('normalize endpoint %j', controlEndpoint);
+debug('normalize control endpoint %j to %j', controlUri, controlEndpoint);
 
 // Allow `http://:8888`
 controlEndpoint.hostname = controlEndpoint.hostname || '0.0.0.0';
 delete controlEndpoint.host;
 
 var listenEndpoint = url.parse(listenUri);
-debug('normalize endpoint %j', listenEndpoint);
+debug('normalize listen endpoint %j to %j', listenUri, listenEndpoint);
 
 // Allow `http://:8888`
 listenEndpoint.hostname = listenEndpoint.hostname || '0.0.0.0';
@@ -98,9 +98,10 @@ process.chdir(base);
 
 var app = setup(base, nginxPath, controlEndpoint, listenEndpoint, nginxRoot);
 
-app.on('listening', function(listenAddr) {
-  console.log('%s: listen on %s, work base is `%s`',
-    $0, listenAddr.port, base);
+app.on('listening', function(addr) {
+  console.log('%s: control on http://%s:%s', $0, addr.address, addr.port);
+  console.log('%s: nginx on  %s', $0, listenUri);
+  console.log('%s: work base `%s`', $0, base);
 });
 
 app.start();
