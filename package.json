@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "lib/server.js",
   "scripts": {
-    "pretest": "jshint . && eslint --ignore-path .jshintignore **/*.js",
+    "lint": "jshint . && eslint .",
+    "pretest": "jshint . && eslint .",
     "test": "tap --timeout 300 test/test-*.js"
   },
   "bin": {
@@ -24,7 +25,6 @@
     "posix-getopt": "^1.1.0",
     "serve-favicon": "^2.0.1",
     "strong-service-install": "^1.1.0",
-    "tap": "^0.5.0",
     "uid-number": "0.0.6",
     "uuid": "^2.0.1"
   },
@@ -32,8 +32,9 @@
     "loopback-explorer": "^1.1.0"
   },
   "devDependencies": {
-    "eslint": "^0.12.0",
-    "jshint": "^2.5.11"
+    "eslint": "^0.22.1",
+    "jshint": "^2.5.11",
+    "tap": "^1.2.0"
   },
   "license": {
     "name": "StrongLoop",
