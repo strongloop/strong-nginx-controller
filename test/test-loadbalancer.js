@@ -110,7 +110,6 @@ test('Test service start/stop', function(t) {
     url.parse('http://0.0.0.0:0'),
     path.resolve(__dirname, './scratch/nginx')
   );
-  t.plan(20);
 
   async.series([
     testAppStart.bind(null, t, app),
@@ -119,6 +118,12 @@ test('Test service start/stop', function(t) {
     testAppStop.bind(null, t, app)
   ],
     function() {
+      // Clear the stubs registered in the tests above, because app.stop()
+      // is called on process exit, which will try to send a stop command to
+      // the nginx daemon.
+      app._nginxCmd = function(action, cmdCb) {
+        setImmediate(cmdCb);
+      };
       t.end();
     });
 });
