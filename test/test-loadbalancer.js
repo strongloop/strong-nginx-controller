@@ -1,3 +1,4 @@
+var assert = require('assert');
 var server = require('../lib/server');
 var test = require('tap').test;
 var path = require('path');
@@ -59,6 +60,7 @@ function testAddEndpoints(t, app, cb) {
       t.ifError(err);
 
       Endpoint.find({}, function(err, endpoints) {
+        assert.ifError(err);
         t.ok(endpoints.length === 2);
         t.ok(endpoints[0].host === '127.0.0.1');
         t.ok(endpoints[1].host === '127.0.0.1');
@@ -89,6 +91,7 @@ function testRemoveEndpoints(t, app, cb) {
       t.ifError(err);
 
       Endpoint.find({}, function(err, endpoints) {
+        assert.ifError(err);
         t.ok(endpoints.length === 0);
 
         var fdata = fs.readFileSync(path.resolve(__dirname,
