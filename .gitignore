@@ -27,3 +27,6 @@ node_modules
 # Users Environment Variables
 .lock-wscript
 .idea
+.strong-nginx-controller
+test/routes.json
+test/scratch
