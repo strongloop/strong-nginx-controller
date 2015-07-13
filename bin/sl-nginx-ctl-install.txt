@@ -5,6 +5,7 @@ Options:
   -v,--version          Print version and exit.
   -b,--base BASE        Base directory to work in (default is .strong-nginx-controller).
   -u,--user USER        User to run manager as (default is strong-nginx-controller).
+  -g,--group GROUP      Group to run manager as (default is strong-nginx-controller).
   -c,--control CONTROL  Control API endpoint (Default http://0.0.0.0:0)
   -l,--listen ENDPOINT  Listen ENDPOINT for incoming HTTP traffic
                         (Default: http://0.0.0.0:8080)
