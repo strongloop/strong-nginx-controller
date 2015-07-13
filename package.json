@@ -14,18 +14,14 @@
   },
   "dependencies": {
     "async": "^0.9.0",
-    "compression": "^1.0.3",
+    "compression": "^1.5.1",
     "debug": "^2.1.1",
-    "errorhandler": "^1.1.1",
+    "errorhandler": "^1.4.1",
     "loopback": "^2.0.0",
     "loopback-boot": "^2.0.0",
-    "loopback-datasource-juggler": "^2.7.0",
     "mkdirp": "^0.5.0",
-    "passwd-user": "^1.0.1",
     "posix-getopt": "^1.1.0",
-    "serve-favicon": "^2.0.1",
-    "strong-service-install": "^1.1.0",
-    "uid-number": "0.0.6",
+    "strong-service-install": "^2.0.0",
     "uuid": "^2.0.1"
   },
   "optionalDependencies": {
@@ -36,10 +32,7 @@
     "jshint": "^2.5.11",
     "tap": "^1.2.0"
   },
-  "license": {
-    "name": "StrongLoop",
-    "url": "https://github.com/strongloop/strong-nginx-controller/blob/master/LICENSE"
-  },
+  "license": "LicenseRef-LICENSE.md",
   "author": "engineering@strongloop.com",
   "homepage": "https://github.com/strongloop/strong-nginx-controller",
   "keywords": [
