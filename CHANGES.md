@@ -1,3 +1,9 @@
+2015-07-14, Version 1.0.2
+=========================
+
+ * Update service installation (Krishna Raman)
+
+
 2015-06-03, Version 1.0.1
 =========================
 

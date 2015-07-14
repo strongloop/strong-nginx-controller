@@ -1,7 +1,7 @@
 {
   "name": "strong-nginx-controller",
   "description": "Nginx controller for StrongLoop Arc",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "lib/server.js",
   "scripts": {
     "lint": "jshint . && eslint .",
