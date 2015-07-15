@@ -31,5 +31,9 @@
   "Config": {
     "dataSource": null,
     "public": true
+  },
+  "Service": {
+    "dataSource": "db",
+    "public": false
   }
 }

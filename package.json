@@ -4,9 +4,9 @@
   "version": "1.0.2",
   "main": "lib/server.js",
   "scripts": {
-    "lint": "jshint . && eslint .",
-    "pretest": "jshint . && eslint .",
-    "test": "tap --timeout 300 test/test-*.js"
+    "pretest": "eslint --ignore-path .gitignore . && jscs ./",
+    "test": "tap --bail --coverage --coverage-report=cobertura --timeout=200 test/test-*.*",
+    "posttest": "nyc report --reporter=lcov && nyc report"
   },
   "bin": {
     "sl-nginx-ctl": "./bin/sl-nginx-ctl.js",
@@ -16,20 +16,24 @@
     "async": "^0.9.0",
     "compression": "^1.5.1",
     "debug": "^2.1.1",
+    "ejs": "^2.3.3",
     "errorhandler": "^1.4.1",
-    "loopback": "^2.0.0",
-    "loopback-boot": "^2.0.0",
+    "loopback": "^2.19.0",
+    "loopback-boot": "^2.8.0",
+    "loopback-datasource-juggler": "^2.33.0",
     "mkdirp": "^0.5.0",
     "posix-getopt": "^1.1.0",
     "strong-service-install": "^2.0.0",
     "uuid": "^2.0.1"
   },
   "optionalDependencies": {
-    "loopback-explorer": "^1.1.0"
+    "loopback-explorer": "^1.8.0"
   },
   "devDependencies": {
     "eslint": "^0.22.1",
+    "jscs": "^1.13.1",
     "jshint": "^2.5.11",
+    "nyc": "^3.0.0",
     "tap": "^1.2.0"
   },
   "license": "LicenseRef-LICENSE.md",

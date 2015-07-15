@@ -30,3 +30,4 @@ node_modules
 .strong-nginx-controller
 test/routes.json
 test/scratch
+coverage/

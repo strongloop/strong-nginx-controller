@@ -5,7 +5,8 @@
     "id": {
       "type": "string",
       "id": true,
-      "index": true
+      "index": true,
+      "defaultFn": "uuid"
     },
     "host": {
       "type": "string",
@@ -17,9 +18,6 @@
       "required": true
     }
   },
-  "hidden": [
-    "id"
-  ],
   "validations": [],
   "relations": {},
   "acls": [],
