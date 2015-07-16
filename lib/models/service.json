@@ -1,0 +1,14 @@
+{
+  "name": "Service",
+  "plural": "Service",
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "endpoints": {
+      "type": "hasMany",
+      "model": "Endpoint"
+    }
+  },
+  "acls": [],
+  "methods": []
+}
