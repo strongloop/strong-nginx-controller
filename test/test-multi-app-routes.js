@@ -2,10 +2,10 @@ var helper = require('./helper');
 var fs = require('fs');
 var path = require('path');
 
-helper('Test multi-app REST API behavior', function(t, app, baseDir) {
+helper('Test multi-app REST API behavior', function(t, app, baseDir, Nginx) {
   t.test('add endpoints', function(tt) {
     tt.plan(11);
-    app._nginxCmd = function(action, cmdCb) {
+    Nginx.prototype._cmd = function(action, cmdCb) {
       tt.equal(action, 'reload');
       if (cmdCb) return cmdCb();
     };
@@ -39,7 +39,7 @@ helper('Test multi-app REST API behavior', function(t, app, baseDir) {
 
   t.test('remove endpoints', function(tt) {
     tt.plan(8);
-    app._nginxCmd = function(action, cmdCb) {
+    Nginx.prototype._cmd = function(action, cmdCb) {
       tt.equal(action, 'reload');
       if (cmdCb) return cmdCb();
     };

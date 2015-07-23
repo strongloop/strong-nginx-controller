@@ -2,11 +2,10 @@
 /* eslint no-console:0 no-process-exit:0 */
 
 var Parser = require('posix-getopt').BasicParser;
-var debug = require('debug')('strong-nginx-controller:ctl');
+var defaults = require('strong-url-defaults');
+var fs = require('fs');
 var mkdirp = require('mkdirp').sync;
 var path = require('path');
-var fs = require('fs');
-var url = require('url');
 
 var setup = require('../lib/server');
 
@@ -24,15 +23,19 @@ var parser = new Parser([
     ':v(version)',
     'h(help)',
     'b:(base)',
-    'c:(control)',
-    'l:(listen)',
+    'A:(api)',
+    'n(no-api)',
+    'C:(control)',
+    'R:(routable-addr)',
     'x:(nginx)'
   ].join(''),
   argv);
 
 var base = '.strong-nginx-controller';
-var controlUri = 'http://0.0.0.0:0';
-var listenUri = 'http://0.0.0.0:8080';
+var apiEndpoint = 'http://';
+var disableApi = false;
+var routableEndpoint = 'http://';
+var controlUri = null;
 var nginxPath = '/usr/sbin/nginx';
 var nginxRoot = path.resolve(__dirname, '../lib/html/');
 var option;
@@ -50,11 +53,17 @@ while ((option = parser.getopt()) !== undefined) {
     case 'b':
       base = option.optarg;
       break;
-    case 'c':
+    case 'C':
       controlUri = option.optarg;
       break;
-    case 'l':
-      listenUri = option.optarg;
+    case 'A':
+      apiEndpoint = option.optarg;
+      break;
+    case 'n':
+      disableApi = true;
+      break;
+    case 'R':
+      routableEndpoint = option.optarg;
       break;
     case 'x':
       nginxPath = option.optarg;
@@ -73,35 +82,59 @@ if (parser.optind() !== argv.length) {
   process.exit();
 }
 
-if (controlUri === null) {
-  console.error('Command API endpoint was not specified, try `%s --help`.', $0);
+if (disableApi && !controlUri) {
+  console.error(
+    'Either the control URL or an API endpoint must be provided, ' +
+    'try `%s --help`.', $0
+  );
   process.exit();
 }
 
-var controlEndpoint = url.parse(controlUri);
-debug('normalize control endpoint %j to %j', controlUri, controlEndpoint);
+if (!disableApi) {
+  apiEndpoint = defaults(apiEndpoint, {
+    host: '0.0.0.0',
+    port: 8702,
+  });
+}
 
-// Allow `http://:8888`
-controlEndpoint.hostname = controlEndpoint.hostname || '0.0.0.0';
-delete controlEndpoint.host;
+routableEndpoint = defaults(routableEndpoint, {
+  host: '0.0.0.0',
+  port: 8080,
+});
 
-var listenEndpoint = url.parse(listenUri);
-debug('normalize listen endpoint %j to %j', listenUri, listenEndpoint);
-
-// Allow `http://:8888`
-listenEndpoint.hostname = listenEndpoint.hostname || '0.0.0.0';
-delete listenEndpoint.host;
+if (controlUri) {
+  controlUri = defaults(controlUri, {
+    host: '127.0.0.1',
+    port: 8701,
+  }, {
+    protocol: 'ws',
+    path: 'gateway-control',
+  });
+}
 
 // Run from base directory, so files and paths are created in it.
 mkdirp(base);
 process.chdir(base);
 
-var app = setup(base, nginxPath, controlEndpoint, listenEndpoint, nginxRoot);
+var app = setup({
+  base: base,
+  nginxPath: nginxPath,
+  nginxRoot: nginxRoot,
+  routableEndpoint: routableEndpoint,
+  apiEndpoint: disableApi ? null : apiEndpoint,
+  controlUri: controlUri,
+});
+
+app.on('started', function() {
+  console.log('%s: nginx on  %s', $0, routableEndpoint);
+  console.log('%s: work base `%s`', $0, base);
+  if (controlUri) {
+    console.log('%s: connecting to Central server `%s`', $0, controlUri);
+  }
+});
 
 app.on('listening', function(addr) {
-  console.log('%s: control on http://%s:%s', $0, addr.address, addr.port);
-  console.log('%s: nginx on  %s', $0, listenUri);
-  console.log('%s: work base `%s`', $0, base);
+  console.log('%s: API on http://%s:%s', $0, addr.address, addr.port);
 });
 
 app.start();

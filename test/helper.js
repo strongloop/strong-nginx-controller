@@ -2,25 +2,27 @@ var mkdirp = require('mkdirp');
 var path = require('path');
 var server = require('../lib/server');
 var test = require('tap').test;
-var url = require('url');
+var Nginx = require('../lib/nginx');
 
 module.exports = function(title, runTests) {
   test(title, function(t) {
     var nginxPath = '/some/path/to/nginx';
     var baseDir = path.resolve(__dirname, './scratch');
-    var app = server(baseDir,
-      nginxPath,
-      url.parse('http://0.0.0.0:0'),
-      url.parse('http://0.0.0.0:0'),
-      path.resolve(__dirname, './scratch/nginx')
-    );
+    var app = server({
+      baseDir: baseDir,
+      nginxPath: nginxPath,
+      apiEndpoint: 'http://0.0.0.0:0',
+      routableEndpoint: 'http://0.0.0.0:0',
+      nginxRoot: path.resolve(__dirname, './scratch/nginx'),
+      Nginx: Nginx,
+    });
     mkdirp(baseDir, function(err) {
       t.ifError(err);
 
       t.test('start server', function(tt) {
         tt.plan(4);
-        app._nginxCmd = function(action, cmdCb) {
-          tt.equal(action, 'start');
+        Nginx.prototype._cmd = function(action, cmdCb) {
+          tt.equal(action, 'reload');
           if (cmdCb) return cmdCb();
         };
 
@@ -49,11 +51,11 @@ module.exports = function(title, runTests) {
         });
       });
 
-      runTests(t, app, baseDir);
+      runTests(t, app, baseDir, Nginx);
 
       t.test('stop service', function(tt) {
         tt.plan(2);
-        app._nginxCmd = function(action, cmdCb) {
+        Nginx.prototype._cmd = function(action, cmdCb) {
           // Gets called 2 times, one when app.stop() is called and again when
           // the app exits.
           if (cmdCb) {
@@ -65,6 +67,11 @@ module.exports = function(title, runTests) {
           tt.ifError(err);
           tt.end();
         });
+      });
+
+      t.on('end', function() {
+        // Remove mocks
+        Nginx.prototype._cmd = function() {};
       });
     });
   });
