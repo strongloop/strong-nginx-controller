@@ -2,10 +2,10 @@ var fs = require('fs');
 var test = require('./helper');
 var path = require('path');
 
-test('Test Legacy REST API behavior', function(t, app, baseDir) {
+test('Test Legacy REST API behavior', function(t, app, baseDir, Nginx) {
   t.test('add endpoints', function(tt) {
     tt.plan(10);
-    app._nginxCmd = function(action, cmdCb) {
+    Nginx.prototype._cmd = function(action, cmdCb) {
       tt.equal(action, 'reload');
       if (cmdCb) return cmdCb();
     };
@@ -38,7 +38,7 @@ test('Test Legacy REST API behavior', function(t, app, baseDir) {
 
   t.test('remove endpoints', function(tt) {
     tt.plan(6);
-    app._nginxCmd = function(action, cmdCb) {
+    Nginx.prototype._cmd = function(action, cmdCb) {
       tt.equal(action, 'reload');
       if (cmdCb) return cmdCb();
     };
