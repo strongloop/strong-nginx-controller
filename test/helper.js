@@ -22,7 +22,7 @@ module.exports = function(title, runTests) {
       t.test('start server', function(tt) {
         tt.plan(4);
         Nginx.prototype._cmd = function(action, cmdCb) {
-          tt.equal(action, 'reload');
+          tt.equal(action, 'start');
           if (cmdCb) return cmdCb();
         };
 

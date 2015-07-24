@@ -117,7 +117,7 @@ mkdirp(base);
 process.chdir(base);
 
 var app = setup({
-  base: base,
+  baseDir: base,
   nginxPath: nginxPath,
   nginxRoot: nginxRoot,
   routableEndpoint: routableEndpoint,
