@@ -20,6 +20,9 @@ module.exports = function(title, runTests) {
         Nginx: Nginx,
       });
 
+      // Disable debouncing
+      Nginx.prototype.reload = Nginx.prototype._reload;
+
       t.test('start server', function(tt) {
         tt.plan(4);
         Nginx.prototype._cmd = function(action, cmdCb) {
