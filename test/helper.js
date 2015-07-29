@@ -1,4 +1,4 @@
-var mkdirp = require('mkdirp');
+var mktmpdir = require('mktmpdir');
 var path = require('path');
 var server = require('../lib/server');
 var test = require('tap').test;
@@ -6,18 +6,19 @@ var Nginx = require('../lib/nginx');
 
 module.exports = function(title, runTests) {
   test(title, function(t) {
-    var nginxPath = '/some/path/to/nginx';
-    var baseDir = path.resolve(__dirname, './scratch');
-    var app = server({
-      baseDir: baseDir,
-      nginxPath: nginxPath,
-      apiEndpoint: 'http://0.0.0.0:0',
-      routableEndpoint: 'http://0.0.0.0:0',
-      nginxRoot: path.resolve(__dirname, './scratch/nginx'),
-      Nginx: Nginx,
-    });
-    mkdirp(baseDir, function(err) {
+    mktmpdir(function(err, baseDir, done) {
       t.ifError(err);
+      console.log('Running test with baseDir %s', baseDir);
+
+      var nginxPath = '/some/path/to/nginx';
+      var app = server({
+        baseDir: baseDir,
+        nginxPath: nginxPath,
+        apiEndpoint: 'http://0.0.0.0:0',
+        routableEndpoint: 'http://0.0.0.0:0',
+        nginxRoot: path.resolve(baseDir, './nginx'),
+        Nginx: Nginx,
+      });
 
       t.test('start server', function(tt) {
         tt.plan(4);
@@ -72,6 +73,7 @@ module.exports = function(title, runTests) {
       t.on('end', function() {
         // Remove mocks
         Nginx.prototype._cmd = function() {};
+        done();
       });
     });
   });
