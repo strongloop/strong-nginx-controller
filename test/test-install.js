@@ -89,26 +89,27 @@ tap.test('invalid args', function(t) {
 });
 
 tap.test('dry-run', function(t) {
- var lines = [];
- install.log = logTo(lines);
- install.error = logTo(lines);
- install.ignorePlatform = true;
- var args = installCmd(
-   '--dry-run',
-   '--force',
-   '--base', __dirname,
-   '--control', 'http://:8910',
-   '--listen', 'http://:80',
-   '--job-file', path.join(__dirname, 'upstart-test.conf')
- );
+  var lines = [];
+  install.log = logTo(lines);
+  install.error = logTo(lines);
+  install.ignorePlatform = true;
+  var args = installCmd(
+    '--dry-run',
+    '--force',
+    '--base', __dirname,
+    '--api', 'http://:8910',
+    '--routable-addr', 'http://:80',
+    '--job-file', path.join(__dirname, 'upstart-test.conf')
+  );
 
- install(args, function(err) {
-   var output = lines.join('\n');
-   t.ifError(err, 'should not fail');
-   t.match(output, /dry-run mode/i, 'should notice dry-run mode');
-   t.match(output, /strong-nginx-controller installed/, 'should claim success');
-   t.end();
- });
+  install(args, function(err) {
+    var output = lines.join('\n');
+    t.ifError(err, 'should not fail');
+    t.match(output, /dry-run mode/i, 'should notice dry-run mode');
+    t.match(output, /strong-nginx-controller installed/,
+      'should claim success');
+    t.end();
+  });
 });
 
 function installCmd() {

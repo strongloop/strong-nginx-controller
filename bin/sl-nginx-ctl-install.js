@@ -35,10 +35,12 @@ function install(argv, callback) {
       'b:(base)',
       'u:(user)',
       'g:(group)',
-      'c:(control)',
-      'l:(listen)',
+      'L:(api)',
+      'n(no-api)',
+      'C:(control)',
+      'R:(routable-addr)',
       'j:(job-file)',
-      'n(dry-run)',
+      'd(dry-run)',
       'f(force)',
       'x(nginx)',
       'i:(upstart)', // -i unused, posix-getopt doesn't do long-only options
@@ -51,8 +53,10 @@ function install(argv, callback) {
     group: 'strong-nginx-controller',
     // this should be options.cwd from fillInHome
     ctlBaseDir: '.strong-nginx-controller',
-    controlUri: 'http://0.0.0.0:0',
-    listenUri: 'http://0.0.0.0:8080',
+    apiEndpoint: 'http://',
+    disableApi: false,
+    routableEndpoint: 'http://',
+    controlUri: null,
     dryRun: false,
     jobFile: null, // strong-service-install provides an init-specific default
     force: false,
@@ -73,11 +77,14 @@ function install(argv, callback) {
       case 'b':
         jobConfig.ctlBaseDir = option.optarg;
         break;
-      case 'c':
+      case 'C':
         jobConfig.controlUri = option.optarg;
         break;
-      case 'l':
-        jobConfig.listenUri = option.optarg;
+      case 'L':
+        jobConfig.apiEndpoint = option.optarg;
+        break;
+      case 'R':
+        jobConfig.routableEndpoint = option.optarg;
         break;
       case 'u':
         jobConfig.user = option.optarg;
@@ -89,6 +96,9 @@ function install(argv, callback) {
         jobConfig.jobFile = option.optarg;
         break;
       case 'n':
+        jobConfig.disableApi = true;
+        break;
+      case 'd':
         jobConfig.dryRun = true;
         break;
       case 'f':
@@ -129,10 +139,17 @@ function install(argv, callback) {
   jobConfig.command = [
     install.execPath,
     require.resolve('./sl-nginx-ctl'),
-    '--control', jobConfig.controlUri,
-    '--listen', jobConfig.listenUri,
     '--base', jobConfig.ctlBaseDir || '.',
+    '--routable-addr', jobConfig.routableEndpoint,
   ];
+  if (jobConfig.disableApi) {
+    jobConfig.command.push('--no-api');
+  } else {
+    jobConfig.command.push('--api', jobConfig.apiEndpoint);
+  }
+
+  if (jobConfig.controlUri)
+    jobConfig.command.push('--control', jobConfig.controlUri);
 
   return install.slSvcInstall(jobConfig, report);
 

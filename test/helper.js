@@ -1,25 +1,32 @@
-var mkdirp = require('mkdirp');
+var debug = require('debug')('strong-nginx-controller:test');
+var mktmpdir = require('mktmpdir');
 var path = require('path');
 var server = require('../lib/server');
 var test = require('tap').test;
-var url = require('url');
+var Nginx = require('../lib/nginx');
 
 module.exports = function(title, runTests) {
   test(title, function(t) {
-    var nginxPath = '/some/path/to/nginx';
-    var baseDir = path.resolve(__dirname, './scratch');
-    var app = server(baseDir,
-      nginxPath,
-      url.parse('http://0.0.0.0:0'),
-      url.parse('http://0.0.0.0:0'),
-      path.resolve(__dirname, './scratch/nginx')
-    );
-    mkdirp(baseDir, function(err) {
+    mktmpdir(function(err, baseDir, done) {
       t.ifError(err);
+      debug('Running test with baseDir %s', baseDir);
+
+      var nginxPath = '/some/path/to/nginx';
+      var app = server({
+        baseDir: baseDir,
+        nginxPath: nginxPath,
+        apiEndpoint: 'http://0.0.0.0:0',
+        routableEndpoint: 'http://0.0.0.0:0',
+        nginxRoot: path.resolve(baseDir, './nginx'),
+        Nginx: Nginx,
+      });
+
+      // Disable debouncing
+      Nginx.prototype.reload = Nginx.prototype._reload;
 
       t.test('start server', function(tt) {
         tt.plan(4);
-        app._nginxCmd = function(action, cmdCb) {
+        Nginx.prototype._cmd = function(action, cmdCb) {
           tt.equal(action, 'start');
           if (cmdCb) return cmdCb();
         };
@@ -49,11 +56,11 @@ module.exports = function(title, runTests) {
         });
       });
 
-      runTests(t, app, baseDir);
+      runTests(t, app, baseDir, Nginx);
 
       t.test('stop service', function(tt) {
         tt.plan(2);
-        app._nginxCmd = function(action, cmdCb) {
+        Nginx.prototype._cmd = function(action, cmdCb) {
           // Gets called 2 times, one when app.stop() is called and again when
           // the app exits.
           if (cmdCb) {
@@ -65,6 +72,12 @@ module.exports = function(title, runTests) {
           tt.ifError(err);
           tt.end();
         });
+      });
+
+      t.on('end', function() {
+        // Remove mocks
+        Nginx.prototype._cmd = function() {};
+        done();
       });
     });
   });
