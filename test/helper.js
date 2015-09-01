@@ -79,6 +79,8 @@ module.exports = function(title, runTests) {
         Nginx.prototype._cmd = function() {};
         done();
       });
+
+      t.end();
     });
   });
 };
