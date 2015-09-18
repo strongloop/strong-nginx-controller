@@ -39,7 +39,7 @@
     "nyc": "^3.0.0",
     "tap": "^1.2.0"
   },
-  "license": "LicenseRef-LICENSE.md",
+  "license": "SEE LICENSE IN LICENSE.md",
   "author": "engineering@strongloop.com",
   "homepage": "https://github.com/strongloop/strong-nginx-controller",
   "keywords": [
