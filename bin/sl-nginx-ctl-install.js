@@ -4,6 +4,8 @@
 // US Government Users Restricted Rights - Use, duplication or disclosure
 // restricted by GSA ADP Schedule Contract with IBM Corp.
 
+'use strict';
+
 var Parser = require('posix-getopt').BasicParser;
 var fs = require('fs');
 var path = require('path');
@@ -34,22 +36,22 @@ function printHelp($0, prn) {
 function install(argv, callback) {
   var $0 = install.$0;
   var parser = new Parser([
-      ':v(version)',
-      'h(help)',
-      'b:(base)',
-      'u:(user)',
-      'g:(group)',
-      'L:(api)',
-      'n(no-api)',
-      'C:(control)',
-      'R:(routable-addr)',
-      'j:(job-file)',
-      'd(dry-run)',
-      'f(force)',
-      'x(nginx)',
-      'i:(upstart)', // -i unused, posix-getopt doesn't do long-only options
-      's(systemd)',
-    ].join(''),
+    ':v(version)',
+    'h(help)',
+    'b:(base)',
+    'u:(user)',
+    'g:(group)',
+    'L:(api)',
+    'n(no-api)',
+    'C:(control)',
+    'R:(routable-addr)',
+    'j:(job-file)',
+    'd(dry-run)',
+    'f(force)',
+    'x(nginx)',
+    'i:(upstart)', // -i unused, posix-getopt doesn't do long-only options
+    's(systemd)',
+  ].join(''),
     argv);
 
   var jobConfig = {
