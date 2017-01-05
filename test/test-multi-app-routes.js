@@ -1,7 +1,9 @@
-// Copyright IBM Corp. 2015,2016. All Rights Reserved.
+// Copyright IBM Corp. 2015,2017. All Rights Reserved.
 // Node module: strong-nginx-controller
 // US Government Users Restricted Rights - Use, duplication or disclosure
 // restricted by GSA ADP Schedule Contract with IBM Corp.
+
+'use strict';
 
 var helper = require('./helper');
 var fs = require('fs');
@@ -21,25 +23,25 @@ helper('Test multi-app REST API behavior', function(t, app, baseDir, Nginx) {
     Config.setEndpoints([
         {host: '127.0.0.1', port: '5000', serviceId: 1},
         {host: '127.0.0.2', port: '5001', serviceId: 2}
-      ], function(err) {
+    ], function(err) {
+      tt.ifError(err);
+
+      Endpoint.find({}, function(err, endpoints) {
         tt.ifError(err);
+        tt.equal(endpoints.length, 2);
+        tt.equal(endpoints[0].host, '127.0.0.1');
+        tt.equal(endpoints[1].host, '127.0.0.2');
 
-        Endpoint.find({}, function(err, endpoints) {
-          tt.ifError(err);
-          tt.equal(endpoints.length, 2);
-          tt.equal(endpoints[0].host, '127.0.0.1');
-          tt.equal(endpoints[1].host, '127.0.0.2');
-
-          var fdata = fs.readFileSync(path.resolve(baseDir,
+        var fdata = fs.readFileSync(path.resolve(baseDir,
               './nginx/nginx.conf'), 'utf8');
 
-          tt.match(fdata, /listen 0.0.0.0:0;/);
-          tt.match(fdata, /upstream svc_1/);
-          tt.match(fdata, /server 127.0.0.2:5001;/);
-          tt.match(fdata, /upstream svc_2/);
-          tt.match(fdata, /server 127.0.0.2:5001;/);
-        });
+        tt.match(fdata, /listen 0.0.0.0:0;/);
+        tt.match(fdata, /upstream svc_1/);
+        tt.match(fdata, /server 127.0.0.2:5001;/);
+        tt.match(fdata, /upstream svc_2/);
+        tt.match(fdata, /server 127.0.0.2:5001;/);
       });
+    });
   });
 
   t.test('remove endpoints', function(tt) {

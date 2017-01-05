@@ -1,9 +1,10 @@
 #!/usr/bin/env node
-// Copyright IBM Corp. 2015,2016. All Rights Reserved.
+// Copyright IBM Corp. 2015,2017. All Rights Reserved.
 // Node module: strong-nginx-controller
 // US Government Users Restricted Rights - Use, duplication or disclosure
 // restricted by GSA ADP Schedule Contract with IBM Corp.
 
+'use strict';
 /* eslint no-console:0 no-process-exit:0 */
 
 var Parser = require('posix-getopt').BasicParser;
@@ -25,15 +26,15 @@ function printHelp(cmdName, prn) {
 var argv = process.argv;
 var $0 = process.env.CMD ? process.env.CMD : path.basename(argv[1]);
 var parser = new Parser([
-    ':v(version)',
-    'h(help)',
-    'b:(base)',
-    'L:(api)',
-    'n(no-api)',
-    'C:(control)',
-    'R:(routable-addr)',
-    'x:(nginx)'
-  ].join(''),
+  ':v(version)',
+  'h(help)',
+  'b:(base)',
+  'L:(api)',
+  'n(no-api)',
+  'C:(control)',
+  'R:(routable-addr)',
+  'x:(nginx)'
+].join(''),
   argv);
 
 var base = '.strong-nginx-controller';

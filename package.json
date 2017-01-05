@@ -4,7 +4,7 @@
   "version": "1.0.2",
   "main": "lib/server.js",
   "scripts": {
-    "pretest": "eslint --ignore-path .gitignore . && jscs ./",
+    "pretest": "eslint --ignore-path .gitignore ./",
     "test": "tap --bail --coverage --coverage-report=cobertura --timeout=200 test/test-*.*",
     "posttest": "nyc report --reporter=lcov && nyc report"
   },
@@ -32,8 +32,8 @@
     "loopback-explorer": "^1.8.0"
   },
   "devDependencies": {
-    "eslint": "^0.22.1",
-    "jscs": "^1.13.1",
+    "eslint": "^2.x",
+    "eslint-config-strongloop": "^2.x",
     "jshint": "^2.5.11",
     "mktmpdir": "^0.1.1",
     "nyc": "^3.0.0",
