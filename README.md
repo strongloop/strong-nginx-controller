@@ -1,6 +1,6 @@
 # StrongLoop Nginx Controller
 
-Provides reverse-proxy and load-balancning support for multiple strong-pm
+Provides reverse-proxy and load-balancing support for multiple strong-pm
 instances configured and run using StrongLoop Arc.
 
 Please see the [official documentation](http://docs.strongloop.com/display/ARC).
