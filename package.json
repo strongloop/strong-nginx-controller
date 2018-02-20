@@ -19,7 +19,7 @@
     "ejs": "^2.3.3",
     "errorhandler": "^1.4.1",
     "lodash": "^3.x",
-    "loopback": "^2.19.0",
+    "loopback": "^3.0.0",
     "loopback-boot": "^2.8.0",
     "loopback-datasource-juggler": "^2.33.0",
     "mkdirp": "^0.5.0",
