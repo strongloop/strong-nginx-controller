@@ -6,7 +6,9 @@
   "scripts": {
     "pretest": "eslint --ignore-path .gitignore ./",
     "test": "tap --bail --coverage --coverage-report=cobertura --timeout=200 test/test-*.*",
-    "posttest": "nyc report --reporter=lcov && nyc report"
+    "posttest": "nyc report --reporter=lcov && nyc report",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "bin": {
     "sl-nginx-ctl": "./bin/sl-nginx-ctl.js",
@@ -18,7 +20,7 @@
     "debug": "^2.1.1",
     "ejs": "^2.3.3",
     "errorhandler": "^1.4.1",
-    "lodash": "^3.x",
+    "lodash": "^4.17.5",
     "loopback": "^2.19.0",
     "loopback-boot": "^2.8.0",
     "loopback-datasource-juggler": "^2.33.0",
@@ -26,7 +28,8 @@
     "posix-getopt": "^1.1.0",
     "strong-control-channel": "^2.0.0",
     "strong-service-install": "^2.0.0",
-    "uuid": "^2.0.1"
+    "uuid": "^2.0.1",
+    "snyk": "^1.88.0"
   },
   "optionalDependencies": {
     "loopback-explorer": "^1.8.0"
@@ -46,5 +49,6 @@
     "nginx",
     "reverse-proxy",
     "StrongLoop"
-  ]
+  ],
+  "snyk": true
 }
