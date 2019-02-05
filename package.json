@@ -18,7 +18,7 @@
     "debug": "^2.1.1",
     "ejs": "^2.3.3",
     "errorhandler": "^1.4.1",
-    "lodash": "^3.x",
+    "lodash": "^4.17.11",
     "loopback": "^2.19.0",
     "loopback-boot": "^2.8.0",
     "loopback-datasource-juggler": "^2.33.0",
